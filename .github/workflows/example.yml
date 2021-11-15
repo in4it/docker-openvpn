@@ -20,5 +20,5 @@ jobs:
           aws-region: eu-west-1
       # Example
       - name: Who am I
-      - run: aws sts get-caller-identity 
+        run: aws sts get-caller-identity 
 
