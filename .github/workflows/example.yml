@@ -1,0 +1,24 @@
+# .github/workflows/example.yml
+name: Example
+on:
+  push:
+
+permissions:
+      id-token: write
+      contents: write    # This is required for actions/checkout@v1
+jobs:
+  S3PackageUpload:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git clone the repository
+        uses: actions/checkout@v1
+      - name: configure aws credentials
+        uses: aws-actions/configure-aws-credentials@master
+        with:
+          role-to-assume: arn:aws:iam::773378664514:role/github-openvpn
+          role-session-name: samplerolesession
+          aws-region: eu-west-1
+      # Example
+      - name: Who am I
+      - run: aws sts get-caller-identity 
+
