@@ -1,5 +1,5 @@
 # .github/workflows/example.yml
-name: Example
+name: Build and Push OpenVPN
 on:
   push:
 
@@ -7,7 +7,7 @@ permissions:
       id-token: write
       contents: write    # This is required for actions/checkout@v1
 jobs:
-  S3PackageUpload:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Git clone the repository
@@ -18,7 +18,12 @@ jobs:
           role-to-assume: arn:aws:iam::773378664514:role/github-openvpn
           role-session-name: samplerolesession
           aws-region: eu-west-1
-      # Example
-      - name: Who am I
-        run: aws sts get-caller-identity 
+      - name: Docker Login
+        run: aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/y9x3p3i6
+      - name: Docker Builld
+        run: docker build -t openvpn .
+      - name: Docker Tag
+        run: docker tag openvpn:latest public.ecr.aws/y9x3p3i6/openvpn:${{ github.run_number }}
+      - name: Docker Push
+        run: docker push public.ecr.aws/y9x3p3i6/openvpn:${{ github.run_number }}
 
