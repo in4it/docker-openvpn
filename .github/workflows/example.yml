@@ -23,7 +23,7 @@ jobs:
       - name: Docker Builld
         run: docker build -t openvpn .
       - name: Docker Tag
-        run: docker tag openvpn:latest public.ecr.aws/y9x3p3i6/openvpn:${{ github.run_number }}
+        run: docker tag openvpn:latest public.ecr.aws/y9x3p3i6/openvpn:latest
       - name: Docker Push
-        run: docker push public.ecr.aws/y9x3p3i6/openvpn:${{ github.run_number }}
+        run: docker push public.ecr.aws/y9x3p3i6/openvpn:latest
 
